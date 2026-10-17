@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Activity Calendar</h2>
+<form action="/activities" method="POST" class="row g-2 bg-white p-3 shadow-sm rounded my-3">
+    <div class="col-md-3"><input type="text" name="title" class="form-control" placeholder="Activity Title *" required></div>
+    <div class="col-md-2">
+        <select name="category" class="form-select">
+            {% for cat in categories %}<option value="{{ cat }}">{{ cat }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2"><input type="date" name="activity_date" class="form-control" required></div>
+    <div class="col-md-2"><input type="text" name="venue" class="form-control" placeholder="Venue"></div>
+    <div class="col-md-2">
+        <select name="target_year" class="form-select">
+            <option value="0">All Years</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+        </select>
+    </div>
+    <div class="col-md-1"><button type="submit" class="btn btn-primary w-100">Add</button></div>
+</form>
+
+<table class="table table-striped bg-white shadow-sm rounded align-middle">
+    <thead class="table-dark">
+        <tr><th>Title</th><th>Category</th><th>Date</th><th>Venue</th><th>Target Year</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+        {% for a in activities %}
+        <tr>
+            <td>{{ a.title }}</td>
+            <td><span class="badge bg-secondary">{{ a.category }}</span></td>
+            <td>{{ a.activity_date }}</td>
+            <td>{{ a.venue }}</td>
+            <td>{{ years[a.target_year] if a.target_year > 0 else 'All Years' }}</td>
+            <td><a href="/activities/delete/{{ a.id }}" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

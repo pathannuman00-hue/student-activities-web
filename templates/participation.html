@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Participation Records</h2>
+<form action="/participation" method="POST" class="row g-2 bg-white p-3 shadow-sm rounded my-3">
+    <div class="col-md-3">
+        <select name="student_id" class="form-select" required>
+            <option value="">Select Student...</option>
+            {% for s in students %}<option value="{{ s.id }}">{{ s.roll_no }} - {{ s.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-4">
+        <select name="activity_id" class="form-select" required>
+            <option value="">Select Activity...</option>
+            {% for a in activities %}<option value="{{ a.id }}">{{ a.title }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="status" class="form-select">
+            {% for st in statuses %}<option value="{{ st }}">{{ st }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2"><input type="text" name="achievement" class="form-control" placeholder="Achievement"></div>
+    <div class="col-md-1"><button type="submit" class="btn btn-primary w-100">Register</button></div>
+</form>
+
+<table class="table table-striped bg-white shadow-sm rounded align-middle">
+    <thead class="table-dark">
+        <tr><th>Roll No</th><th>Student</th><th>Year</th><th>Activity</th><th>Date</th><th>Status</th><th>Achievement</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.roll_no }}</td>
+            <td>{{ r.name }}</td>
+            <td>{{ years[r.year] }}</td>
+            <td>{{ r.title }}</td>
+            <td>{{ r.activity_date }}</td>
+            <td><span class="badge bg-info text-dark">{{ r.status }}</span></td>
+            <td>{{ r.achievement }}</td>
+            <td>
+                <a href="/participation/status/{{ r.id }}/Completed" class="btn btn-sm btn-success">Complete</a>
+                <a href="/participation/delete/{{ r.id }}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

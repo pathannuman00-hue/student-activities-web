@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Reports & Analytics</h2>
+    <a href="/export-csv" class="btn btn-success">Download CSV Report</a>
+</div>
+
+<h4 class="mb-3">Academic Year Performance</h4>
+<table class="table table-bordered bg-white shadow-sm mb-5">
+    <thead class="table-secondary">
+        <tr><th>Academic Year</th><th>Total Students</th><th>Participation Records</th><th>Completed Activities</th></tr>
+    </thead>
+    <tbody>
+        {% for y in year_data %}
+        <tr>
+            <td>{{ y.label }}</td>
+            <td>{{ y.students }}</td>
+            <td>{{ y.registrations }}</td>
+            <td>{{ y.completed }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mb-3">Activities by Category</h4>
+<table class="table table-bordered bg-white shadow-sm">
+    <thead class="table-secondary">
+        <tr><th>Category</th><th>Total Activities</th></tr>
+    </thead>
+    <tbody>
+        {% for c in category_data %}
+        <tr>
+            <td>{{ c.category }}</td>
+            <td>{{ c.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
